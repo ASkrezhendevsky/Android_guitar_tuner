@@ -25,6 +25,7 @@ public class PitchPresenter {
                 .subscribe(
                         note -> {
                             view.setText(note.getName());
+                            System.out.println(note.getName());
                         },
                         error -> {
                             System.out.println("error");

@@ -26,9 +26,9 @@ public class Tuner {
                 recorder.startRecording();
 
                 while (!emitter.isDisposed()) {
+                    double frequency = detector.detect(recorder.readNext());
+                    finder.setFrequency(frequency);
                     synchronized (mutableNote) {
-                      //  mutableNote.setFrequency(detector.detect(recorder.readNext());
-                        double frequency = 440;
                         mutableNote.setFrequency(frequency);
                         mutableNote.setName(finder.getNoteName());
                         mutableNote.setPercentOffset(finder.getPercentageDifference());
