@@ -9,13 +9,15 @@ import io.reactivex.schedulers.Schedulers;
 
 public class PitchPresenter {
     private Tuner tuner;
-    private TextView view;
+    private TextView noteName;
+    private TextView noteArrow;
 
     private Disposable disposable;
 
-    public PitchPresenter(Tuner tuner, TextView view) {
+    public PitchPresenter(Tuner tuner, TextView noteName, TextView noteArrow) {
         this.tuner = tuner;
-        this.view = view;
+        this.noteName = noteName;
+        this.noteArrow = noteArrow;
     }
 
     public void startListeningForNotes() {
@@ -24,7 +26,8 @@ public class PitchPresenter {
                 .subscribeOn(Schedulers.io())
                 .subscribe(
                         note -> {
-                            view.setText(note.getName());
+                            noteName.setText(note.getName());
+                            noteArrow.setX(note.getPercentOffset());
                             System.out.println(note.getName());
                         },
                         error -> {

@@ -17,6 +17,7 @@ import by.gsu.pms.android_guitar_tuner.tuner.Tuner;
 public class MainActivity extends AppCompatActivity {
 
     private TextView noteText;
+    private TextView noteArrow;
     private PitchPresenter pitchPresenter;
     private Button button;
     private boolean isListening = false;
@@ -29,9 +30,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         noteText = (TextView) findViewById(R.id.noteName);
+        noteArrow = (TextView) findViewById(R.id.noteArrow);
         Button button = (Button) findViewById(R.id.button);
 
-        pitchPresenter = new PitchPresenter(new Tuner(), noteText);
+        pitchPresenter = new PitchPresenter(new Tuner(), noteText, noteArrow);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
