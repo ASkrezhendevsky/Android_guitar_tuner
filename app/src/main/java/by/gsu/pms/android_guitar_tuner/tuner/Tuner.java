@@ -2,6 +2,7 @@ package by.gsu.pms.android_guitar_tuner.tuner;
 
 import android.media.tv.TvContract;
 
+import by.gsu.pms.android_guitar_tuner.notes.NoteFinder;
 import by.gsu.pms.android_guitar_tuner.recording.Recorder;
 import by.gsu.pms.android_guitar_tuner.recording.RecordingConfig;
 import io.reactivex.Observable;
@@ -13,7 +14,8 @@ public class Tuner {
     private final PitchDetector detector;
     private final Recorder recorder;
 
-    private final MutableNote mutableNote = new MutableNote(0);
+    private final MutableNote mutableNote = new MutableNote();
+    private final NoteFinder finder = new NoteFinder();
 
     public Tuner() {
         detector = new YINPitchDetector(RecordingConfig.AUDIO_SAMPLE_RATE, RecordingConfig.AUDIO_RECORD_READ_SIZE);
@@ -24,9 +26,12 @@ public class Tuner {
                 recorder.startRecording();
 
                 while (!emitter.isDisposed()) {
-                   // mutableNote.setFrequency(1detector.detect(recorder.readNext())
                     synchronized (mutableNote) {
-                        mutableNote.setFrequency(1);;
+                      //  mutableNote.setFrequency(detector.detect(recorder.readNext());
+                        double frequency = 440;
+                        mutableNote.setFrequency(frequency);
+                        mutableNote.setName(finder.getNoteName());
+                        mutableNote.setPercentOffset(finder.getPercentageDifference());
                     }
                     emitter.onNext(mutableNote);
                 }

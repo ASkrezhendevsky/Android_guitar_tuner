@@ -22,8 +22,14 @@ public class PitchPresenter {
         disposable = tuner.startListening()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(i -> {view.setText(i.toString()); System.out.println("set i; i = "+i);},
-                        error -> {System.out.println("error");});
+                .subscribe(
+                        note -> {
+                            view.setText(note.getName());
+                        },
+                        error -> {
+                            System.out.println("error");
+                        }
+                );
     }
 
     public void stopListeningForNotes() {
