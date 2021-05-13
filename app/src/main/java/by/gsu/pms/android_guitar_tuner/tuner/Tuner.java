@@ -25,7 +25,9 @@ public class Tuner {
 
                 while (!emitter.isDisposed()) {
                    // mutableNote.setFrequency(1detector.detect(recorder.readNext())
-                    mutableNote.setFrequency(1);
+                    synchronized (mutableNote) {
+                        mutableNote.setFrequency(1);;
+                    }
                     emitter.onNext(mutableNote);
                 }
 
