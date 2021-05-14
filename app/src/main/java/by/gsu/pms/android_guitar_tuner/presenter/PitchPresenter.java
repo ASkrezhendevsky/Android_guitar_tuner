@@ -32,10 +32,7 @@ public class PitchPresenter {
                         note -> {
                             noteName.setText(note.getName());
 
-                            noteArrow.setX(noteName.getX() + note.getPercentOffset() * 3);
-
-                            System.out.println(note.getPercentOffset());
-                            System.out.println(note.getName());
+                            noteArrow.setX(noteName.getX() + note.getPercentOffset() * noteName.getX());
                         },
                         error -> System.out.println("error")
                 );

@@ -1,7 +1,5 @@
 package by.gsu.pms.android_guitar_tuner.tuner;
 
-import android.media.tv.TvContract;
-
 import by.gsu.pms.android_guitar_tuner.notes.NoteFinder;
 import by.gsu.pms.android_guitar_tuner.recording.Recorder;
 import by.gsu.pms.android_guitar_tuner.recording.RecordingConfig;
@@ -31,7 +29,7 @@ public class Tuner {
                     synchronized (mutableNote) {
                         mutableNote.setFrequency(frequency);
                         mutableNote.setName(finder.getNoteName());
-                        mutableNote.setPercentOffset(finder.getPercentageDifference());
+                        mutableNote.setPercentOffset(finder.getRelativeDifference());
                     }
                     emitter.onNext(mutableNote);
                 }
