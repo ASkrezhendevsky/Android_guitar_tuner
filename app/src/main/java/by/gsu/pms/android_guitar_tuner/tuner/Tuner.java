@@ -3,6 +3,8 @@ package by.gsu.pms.android_guitar_tuner.tuner;
 import by.gsu.pms.android_guitar_tuner.notes.NoteFinder;
 import by.gsu.pms.android_guitar_tuner.recording.Recorder;
 import by.gsu.pms.android_guitar_tuner.recording.RecordingConfig;
+import by.gsu.pms.android_guitar_tuner.recording.Threshold;
+import by.gsu.pms.android_guitar_tuner.recording.WaveFilter;
 import io.reactivex.Observable;
 
 public class Tuner {
@@ -23,8 +25,21 @@ public class Tuner {
             try {
                 recorder.startRecording();
 
+                WaveFilter filter = new Threshold(1e-2);
+
                 while (!emitter.isDisposed()) {
-                    double frequency = detector.detect(recorder.readNext());
+                    float[] wave = recorder.readNext();
+                    wave = filter.process(wave);
+                    if(wave.length == 0){
+                        synchronized (mutableNote) {
+                            mutableNote.setFrequency(0);
+                            mutableNote.setName("-");
+                            mutableNote.setPercentOffset(0);
+                        }
+                        emitter.onNext(mutableNote);
+                        continue;
+                    }
+                    double frequency = detector.detect(wave);
                     System.out.println(frequency);
                     finder.setFrequency(frequency);
                     synchronized (mutableNote) {
