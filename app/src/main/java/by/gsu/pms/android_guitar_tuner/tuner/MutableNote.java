@@ -15,7 +15,6 @@ public class MutableNote {
         this.name = name;
         this.frequency = frequency;
         this.percentOffset = percentOffset;
-
     }
 
     public String getName() {
@@ -49,11 +48,21 @@ public class MutableNote {
         MutableNote note = (MutableNote) o;
         return Double.compare(note.frequency, frequency) == 0 &&
                 Float.compare(note.percentOffset, percentOffset) == 0 &&
-                Objects.equals(name, note.name);
+                name.equals(note.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, frequency, percentOffset);
+        int result = 17;
+        final int MODIFIER = 31;
+
+        result = MODIFIER * result + name.hashCode();
+        result = MODIFIER * result + Float.floatToIntBits(percentOffset);
+
+        long longFrequency = MODIFIER*Double.doubleToLongBits(frequency);
+
+        result = MODIFIER * result + (int) (longFrequency ^ (longFrequency >>> 32));
+
+        return result;
     }
 }

@@ -6,10 +6,10 @@ import android.os.Build;
 public class Recorder {
     private static final short SHORT_DIVISOR = (short) (-1 * Short.MIN_VALUE);
 
-    private AudioRecord audioRecorder;
-    private int readSize;
-    private short[] buffer;
-    private float[] floatBuffer;
+    private final AudioRecord audioRecorder;
+    private final int readSize;
+    private final short[] buffer;
+    private final float[] floatBuffer;
 
     public Recorder() {
         this.audioRecorder = new AudioRecord(RecordingConfig.AUDIO_RECORD_AUDIO_SOURCE, RecordingConfig.AUDIO_SAMPLE_RATE,

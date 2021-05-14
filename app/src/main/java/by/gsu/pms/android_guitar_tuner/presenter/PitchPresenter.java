@@ -12,9 +12,9 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class PitchPresenter {
-    private Tuner tuner;
-    private TextView noteName;
-    private TextView noteArrow;
+    private final Tuner tuner;
+    private final TextView noteName;
+    private final TextView noteArrow;
 
     private Disposable disposable;
 
@@ -37,9 +37,7 @@ public class PitchPresenter {
                             System.out.println(note.getPercentOffset());
                             System.out.println(note.getName());
                         },
-                        error -> {
-                            System.out.println("error");
-                        }
+                        error -> System.out.println("error")
                 );
     }
 

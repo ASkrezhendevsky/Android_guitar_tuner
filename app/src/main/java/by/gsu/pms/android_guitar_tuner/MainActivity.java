@@ -6,10 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -17,9 +15,6 @@ import by.gsu.pms.android_guitar_tuner.presenter.PitchPresenter;
 import by.gsu.pms.android_guitar_tuner.tuner.Tuner;
 
 public class MainActivity extends AppCompatActivity {
-
-    private TextView noteText;
-    private TextView noteArrow;
     private PitchPresenter pitchPresenter;
     private Button button;
     private boolean isListening = false;
@@ -39,21 +34,18 @@ public class MainActivity extends AppCompatActivity {
         buttonStart = resources.getColor(R.color.purple_200);
         buttonStop = resources.getColor(R.color.purple_700);
 
-        noteText = (TextView) findViewById(R.id.noteName);
-        noteArrow = (TextView) findViewById(R.id.noteArrow);
+        TextView noteText = (TextView) findViewById(R.id.noteName);
+        TextView noteArrow = (TextView) findViewById(R.id.noteArrow);
         button = (Button) findViewById(R.id.button);
 
         pitchPresenter = new PitchPresenter(new Tuner(), noteText, noteArrow);
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (hasPermissions()){
-                    switchListeningState();
-                }
-                else {
-                    requestPerms();
-                }
+        button.setOnClickListener(v -> {
+            if (hasPermissions()){
+                switchListeningState();
+            }
+            else {
+                requestPerms();
             }
         });
     }
@@ -62,14 +54,14 @@ public class MainActivity extends AppCompatActivity {
         if(!isListening){
             System.out.println("Start Listening");
             pitchPresenter.startListeningForNotes();
-            button.setText("Stop");
+            button.setText(getResources().getString(R.string.button_stop));
             button.setBackgroundColor(buttonStop);
         }
         else
         {
             System.out.println("Stop Listening");
             pitchPresenter.stopListeningForNotes();
-            button.setText("Start");
+            button.setText(getResources().getString(R.string.button_start));
             button.setBackgroundColor(buttonStart);
         }
         isListening = !isListening;
@@ -87,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean hasPermissions(){
-        int res = 0;
+        int res;
         String[] permissions = new String[]{Manifest.permission.RECORD_AUDIO};
 
         for (String perms : permissions){
@@ -101,13 +93,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSION_REQUEST_CODE:
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    switchListeningState();
-                }
-                return;
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                switchListeningState();
+            }
         }
     }
 
