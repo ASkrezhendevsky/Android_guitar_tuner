@@ -16,15 +16,12 @@ public class PitchPresenter {
     private TextView noteName;
     private TextView noteArrow;
 
-    private int center = 0;
-
     private Disposable disposable;
 
-    public PitchPresenter(Tuner tuner, TextView noteName, TextView noteArrow, int center) {
+    public PitchPresenter(Tuner tuner, TextView noteName, TextView noteArrow) {
         this.tuner = tuner;
         this.noteName = noteName;
         this.noteArrow = noteArrow;
-        this.center = center;
     }
 
     public void startListeningForNotes() {
@@ -34,7 +31,8 @@ public class PitchPresenter {
                 .subscribe(
                         note -> {
                             noteName.setText(note.getName());
-                            noteArrow.setX(center + note.getPercentOffset() * 10);
+
+                            noteArrow.setX(noteName.getX() + note.getPercentOffset() * 3);
 
                             System.out.println(note.getPercentOffset());
                             System.out.println(note.getName());

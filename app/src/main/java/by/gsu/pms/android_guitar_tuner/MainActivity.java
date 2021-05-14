@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,6 +24,9 @@ public class MainActivity extends AppCompatActivity {
     private Button button;
     private boolean isListening = false;
 
+    private int buttonStart;
+    private int buttonStop;
+
     private final int PERMISSION_REQUEST_CODE = 123;
 
     @Override
@@ -30,11 +34,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Resources resources = getResources();
+
+        buttonStart = resources.getColor(R.color.purple_200);
+        buttonStop = resources.getColor(R.color.purple_700);
+
         noteText = (TextView) findViewById(R.id.noteName);
         noteArrow = (TextView) findViewById(R.id.noteArrow);
-        Button button = (Button) findViewById(R.id.button);
+        button = (Button) findViewById(R.id.button);
 
-        pitchPresenter = new PitchPresenter(new Tuner(), noteText, noteArrow, getWindowManager().getCurrentWindowMetrics().getBounds().centerX());
+        pitchPresenter = new PitchPresenter(new Tuner(), noteText, noteArrow);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,12 +62,15 @@ public class MainActivity extends AppCompatActivity {
         if(!isListening){
             System.out.println("Start Listening");
             pitchPresenter.startListeningForNotes();
-            System.out.println("Start 222");
+            button.setText("Stop");
+            button.setBackgroundColor(buttonStop);
         }
         else
         {
             System.out.println("Stop Listening");
             pitchPresenter.stopListeningForNotes();
+            button.setText("Start");
+            button.setBackgroundColor(buttonStart);
         }
         isListening = !isListening;
     }
@@ -93,10 +105,7 @@ public class MainActivity extends AppCompatActivity {
             case PERMISSION_REQUEST_CODE:
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // permission granted
                     switchListeningState();
-                } else {
-                    // permission denied
                 }
                 return;
         }
