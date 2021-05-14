@@ -42,8 +42,8 @@ public class NoteFinder {
         }
 
         noteName = String.format(Locale.ENGLISH, "%s%d", noteNames[frequencyIndex % noteNames.length], frequencyIndex/noteNames.length);
-        //noteName = noteNames[frequencyIndex % noteNames.length];
-        System.out.println(noteName + frequencyIndex);
+
+        System.out.printf("%s %f \n",noteName, frequency);
 
         double difference = frequency - noteFrequencies[frequencyIndex];
 

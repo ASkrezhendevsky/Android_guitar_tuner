@@ -2,7 +2,6 @@ package by.gsu.pms.android_guitar_tuner.tuner;
 
 public class YINPitchDetector implements PitchDetector {
     private static final float ABSOLUTE_THRESHOLD = 0.125f;
-    private static final float GAIN  = 1000000;
 
     private final double sampleRate;
     private final double[] resultBuffer;
@@ -15,8 +14,6 @@ public class YINPitchDetector implements PitchDetector {
     @Override
     public double detect(float[] wave) {
         int tau;
-
-        System.out.println();
 
         autoCorrelationDifference(wave);
 
@@ -34,7 +31,7 @@ public class YINPitchDetector implements PitchDetector {
 
         for (int tau = 1; tau < length; tau++) {
             for (int i = 0; i < length; i++) {
-                resultBuffer[tau] += Math.pow((wave[i]*GAIN - wave[i + tau]*GAIN), 2);
+                resultBuffer[tau] += Math.pow((wave[i] - wave[i + tau]), 2);
             }
         }
     }

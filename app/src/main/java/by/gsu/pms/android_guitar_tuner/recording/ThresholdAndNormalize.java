@@ -1,13 +1,13 @@
 package by.gsu.pms.android_guitar_tuner.recording;
 
-public class Threshold implements WaveFilter {
+public class ThresholdAndNormalize implements WaveFilter {
     double value = 0;
 
-    public Threshold(){
+    public ThresholdAndNormalize(){
 
     }
 
-    public Threshold(double value){
+    public ThresholdAndNormalize(double value){
         this.value = value;
     }
 
@@ -23,6 +23,11 @@ public class Threshold implements WaveFilter {
         if(maxAmplitude < value){
             return new float[0];
         }
+
+        for (int i = 0; i < waveData.length; i++) {
+            waveData[i] = waveData[i]/maxAmplitude;
+        }
+
         return waveData;
     }
 }

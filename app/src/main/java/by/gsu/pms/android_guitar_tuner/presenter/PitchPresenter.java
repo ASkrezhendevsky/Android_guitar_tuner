@@ -34,7 +34,7 @@ public class PitchPresenter {
                             note -> {
                                 noteName.setText(note.getName());
                                 noteFrequency.setText(String.format(Locale.ENGLISH, "%.2f Hz", note.getFrequency()));
-                                noteArrow.setTranslationX(note.getPercentOffset()*noteArrow.getX());
+                                noteArrow.setTranslationX(note.getPercentOffset() * noteArrow.getX());
                             },
                             error -> System.out.println("error")
                     );
