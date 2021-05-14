@@ -25,6 +25,7 @@ public class Tuner {
 
                 while (!emitter.isDisposed()) {
                     double frequency = detector.detect(recorder.readNext());
+                    System.out.println(frequency);
                     finder.setFrequency(frequency);
                     synchronized (mutableNote) {
                         mutableNote.setFrequency(frequency);

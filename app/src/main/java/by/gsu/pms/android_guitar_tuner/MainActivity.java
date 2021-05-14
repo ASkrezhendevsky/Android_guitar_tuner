@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -31,11 +32,11 @@ public class MainActivity extends AppCompatActivity {
 
         Resources resources = getResources();
 
-        buttonStart = resources.getColor(R.color.purple_200);
-        buttonStop = resources.getColor(R.color.purple_700);
+        buttonStart = resources.getColor(R.color.main_light);
+        buttonStop = resources.getColor(R.color.main_dark);
 
         TextView noteText = (TextView) findViewById(R.id.noteName);
-        TextView noteArrow = (TextView) findViewById(R.id.noteArrow);
+        View noteArrow = findViewById(R.id.noteArrow);
         TextView noteFrequency = (TextView) findViewById(R.id.noteFrequency);
         button = (Button) findViewById(R.id.button);
 
@@ -51,8 +52,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void switchListeningState(){
-        if(!isListening){
+    private void updateListeningState(){
+        if(isListening){
             System.out.println("Start Listening");
             pitchPresenter.startListeningForNotes();
             button.setText(getResources().getString(R.string.button_stop));
@@ -65,18 +66,23 @@ public class MainActivity extends AppCompatActivity {
             button.setText(getResources().getString(R.string.button_start));
             button.setBackgroundColor(buttonStart);
         }
+    }
+
+    private void switchListeningState(){
         isListening = !isListening;
+        updateListeningState();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        updateListeningState();
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
+    protected void onPause() {
+        super.onPause();
+        pitchPresenter.stopListeningForNotes();
     }
 
     private boolean hasPermissions(){
