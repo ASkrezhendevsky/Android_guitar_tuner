@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         noteArrow = (TextView) findViewById(R.id.noteArrow);
         Button button = (Button) findViewById(R.id.button);
 
-        pitchPresenter = new PitchPresenter(new Tuner(), noteText, noteArrow);
+        pitchPresenter = new PitchPresenter(new Tuner(), noteText, noteArrow, getWindowManager().getCurrentWindowMetrics().getBounds().centerX());
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
