@@ -33,7 +33,7 @@ public class PitchPresenter {
                 .subscribe(
                         note -> {
                             noteName.setText(note.getName());
-                            notefrequency.setText(String.format("%f Hz",note.getFrequency()));
+                            notefrequency.setText(String.format("%.2f Hz",note.getFrequency()));
                             noteArrow.setX(noteName.getX() + note.getPercentOffset() * noteName.getX());
                         },
                         error -> System.out.println("error")

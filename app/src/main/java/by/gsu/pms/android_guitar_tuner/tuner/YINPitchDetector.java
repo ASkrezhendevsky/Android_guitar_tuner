@@ -2,7 +2,7 @@ package by.gsu.pms.android_guitar_tuner.tuner;
 
 public class YINPitchDetector implements PitchDetector {
     private static final float ABSOLUTE_THRESHOLD = 0.125f;
-    private static final float GAIN  = 1000;
+    private static final float GAIN  = 100000;
 
     private final double sampleRate;
     private final double[] resultBuffer;

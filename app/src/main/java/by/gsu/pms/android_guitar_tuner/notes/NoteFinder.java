@@ -49,7 +49,7 @@ public class NoteFinder {
         if (difference > 0) {
             relativeDifference = (float) (difference/(noteFrequencies[frequencyIndex] - getUpperFrequency(noteFrequencies[frequencyIndex])));
         } else {
-            relativeDifference = (float) (difference/(noteFrequencies[frequencyIndex] - getLowerFrequency(noteFrequencies[frequencyIndex])));
+            relativeDifference = (float) -(difference/(noteFrequencies[frequencyIndex] - getLowerFrequency(noteFrequencies[frequencyIndex])));
         }
     }
 
