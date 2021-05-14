@@ -2,18 +2,21 @@ package by.gsu.pms.android_guitar_tuner.tuner;
 
 public class YINPitchDetector implements PitchDetector {
     private static final float ABSOLUTE_THRESHOLD = 0.125f;
+    private static final float GAIN  = 1000;
 
     private final double sampleRate;
-    private final float[] resultBuffer;
+    private final double[] resultBuffer;
 
     public YINPitchDetector(double sampleRate, int resultBufferSize){
         this.sampleRate = sampleRate;
-        this.resultBuffer = new float[resultBufferSize / 2];
+        this.resultBuffer = new double[resultBufferSize / 2];
     }
 
     @Override
     public double detect(float[] wave) {
         int tau;
+
+        System.out.println();
 
         autoCorrelationDifference(wave);
 
@@ -28,26 +31,24 @@ public class YINPitchDetector implements PitchDetector {
 
     private void autoCorrelationDifference(final float[] wave) {
         int length = resultBuffer.length;
-        int i, j;
 
-        for (j = 1; j < length; j++) {
-            for (i = 0; i < length; i++) {
-                resultBuffer[j] += Math.pow((wave[i] - wave[i + j]), 2);
+        for (int tau = 1; tau < length; tau++) {
+            for (int i = 0; i < length; i++) {
+                resultBuffer[tau] += Math.pow((wave[i]*GAIN - wave[i + tau]*GAIN), 2);
             }
         }
     }
 
     private void cumulativeMeanNormalizedDifference() {
-        int i;
         int length = resultBuffer.length;
         float runningSum = 0;
 
         resultBuffer[0] = 1;
 
-        for (i = 1; i < length; i++) {
-            runningSum += resultBuffer[i];
+        for (int tau = 1; tau < length; tau++) {
+            runningSum += resultBuffer[tau];
 
-            resultBuffer[i] *= i / runningSum;
+            resultBuffer[tau] *= tau / runningSum;
         }
     }
 
@@ -88,11 +89,11 @@ public class YINPitchDetector implements PitchDetector {
                 betterTau = x0;
             }
         } else {
-            float s0 = resultBuffer[x0];
-            float s1 = resultBuffer[currentTau];
-            float s2 = resultBuffer[x2];
+            double s0 = resultBuffer[x0];
+            double s1 = resultBuffer[currentTau];
+            double s2 = resultBuffer[x2];
 
-            betterTau = currentTau + (s2 - s0) / (2 * (2 * s1 - s2 - s0));
+            betterTau = (float) (currentTau + (s2 - s0) / (2 * (2 * s1 - s2 - s0)));
         }
 
         return betterTau;

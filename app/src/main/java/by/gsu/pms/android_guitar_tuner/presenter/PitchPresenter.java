@@ -15,13 +15,15 @@ public class PitchPresenter {
     private final Tuner tuner;
     private final TextView noteName;
     private final TextView noteArrow;
+    private final TextView notefrequency;
 
     private Disposable disposable;
 
-    public PitchPresenter(Tuner tuner, TextView noteName, TextView noteArrow) {
+    public PitchPresenter(Tuner tuner, TextView noteName, TextView noteArrow, TextView notefrequency) {
         this.tuner = tuner;
         this.noteName = noteName;
         this.noteArrow = noteArrow;
+        this.notefrequency = notefrequency;
     }
 
     public void startListeningForNotes() {
@@ -31,7 +33,7 @@ public class PitchPresenter {
                 .subscribe(
                         note -> {
                             noteName.setText(note.getName());
-
+                            notefrequency.setText(String.format("%f Hz",note.getFrequency()));
                             noteArrow.setX(noteName.getX() + note.getPercentOffset() * noteName.getX());
                         },
                         error -> System.out.println("error")

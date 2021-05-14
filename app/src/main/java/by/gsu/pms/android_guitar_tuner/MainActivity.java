@@ -36,9 +36,10 @@ public class MainActivity extends AppCompatActivity {
 
         TextView noteText = (TextView) findViewById(R.id.noteName);
         TextView noteArrow = (TextView) findViewById(R.id.noteArrow);
+        TextView noteFrequency = (TextView) findViewById(R.id.noteFrequency);
         button = (Button) findViewById(R.id.button);
 
-        pitchPresenter = new PitchPresenter(new Tuner(), noteText, noteArrow);
+        pitchPresenter = new PitchPresenter(new Tuner(), noteText, noteArrow, noteFrequency);
 
         button.setOnClickListener(v -> {
             if (hasPermissions()){
