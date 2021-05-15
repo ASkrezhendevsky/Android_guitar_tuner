@@ -14,9 +14,9 @@ public class ThresholdAndNormalize implements WaveFilter {
     @Override
     public float[] process(float[] waveData) {
         float maxAmplitude = 0;
-        for (int i = 0; i < waveData.length; i++) {
-            if (maxAmplitude < waveData[i]) {
-                maxAmplitude = waveData[i];
+        for (float waveDatum : waveData) {
+            if (maxAmplitude < waveDatum) {
+                maxAmplitude = waveDatum;
             }
         }
 

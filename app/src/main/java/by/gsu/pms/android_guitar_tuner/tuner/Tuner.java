@@ -1,7 +1,10 @@
 package by.gsu.pms.android_guitar_tuner.tuner;
 
+import android.os.Build;
+
 import by.gsu.pms.android_guitar_tuner.notes.NoteFinder;
-import by.gsu.pms.android_guitar_tuner.recording.Recorder;
+import by.gsu.pms.android_guitar_tuner.recording.AbstractRecorder;
+import by.gsu.pms.android_guitar_tuner.recording.RecorderFactory;
 import by.gsu.pms.android_guitar_tuner.recording.RecordingConfig;
 import by.gsu.pms.android_guitar_tuner.recording.ThresholdAndNormalize;
 import by.gsu.pms.android_guitar_tuner.recording.WaveFilter;
@@ -12,13 +15,13 @@ public class Tuner {
     private final Observable<Note> observable;
 
     private final PitchDetector detector;
-    private final Recorder recorder;
+    private final AbstractRecorder recorder;
 
     private final NoteFinder finder = new NoteFinder();
 
     public Tuner() {
         detector = new YINPitchDetector(RecordingConfig.AUDIO_SAMPLE_RATE, RecordingConfig.AUDIO_RECORD_READ_SIZE);
-        recorder = new Recorder();
+        recorder = RecorderFactory.getRecorder(Build.VERSION.SDK_INT);
 
         observable = Observable.create(emitter -> {
             try {
@@ -30,8 +33,6 @@ public class Tuner {
                     float[] wave = recorder.readNext();
 
                     wave = filter.process(wave);
-
-                    Note note;
 
                     if (wave.length == 0) {
                         emitter.onNext(new Note("-", 0, 0));
