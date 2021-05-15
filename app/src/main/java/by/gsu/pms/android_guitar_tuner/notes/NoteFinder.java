@@ -22,14 +22,7 @@ public class NoteFinder {
 
     private final String[] noteNames = new String[]{"C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯", "A", "A♯", "B"};
 
-    private String noteName;
-    private float relativeDifference;
-
-    public NoteFinder() {
-
-    }
-
-    public Note getNote(final double frequency){
+    public Note getNote(final double frequency) {
         int length = noteFrequencies.length;
         int frequencyIndex = 0;
 
@@ -43,12 +36,13 @@ public class NoteFinder {
             }
         }
 
-        noteName = String.format(Locale.ENGLISH, "%s%d", noteNames[frequencyIndex % noteNames.length], frequencyIndex/noteNames.length);
+        String noteName = String.format(Locale.ENGLISH, "%s%d", noteNames[frequencyIndex % noteNames.length], frequencyIndex / noteNames.length);
 
-        System.out.printf("%s %f \n",noteName, frequency);
+        System.out.printf("%s %f \n", noteName, frequency);
 
         double difference = frequency - noteFrequencies[frequencyIndex];
 
+        float relativeDifference;
         if (difference > 0) {
             relativeDifference = (float) (difference / (noteFrequencies[frequencyIndex] - getUpperFrequency(noteFrequencies[frequencyIndex])));
         } else {

@@ -45,7 +45,7 @@ public class Note {
         result = MODIFIER * result + name.hashCode();
         result = MODIFIER * result + Float.floatToIntBits(relativeDifference);
 
-        long longFrequency = MODIFIER*Double.doubleToLongBits(frequency);
+        long longFrequency = MODIFIER * Double.doubleToLongBits(frequency);
 
         result = MODIFIER * result + (int) (longFrequency ^ (longFrequency >>> 32));
 

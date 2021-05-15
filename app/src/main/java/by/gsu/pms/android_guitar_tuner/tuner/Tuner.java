@@ -33,10 +33,9 @@ public class Tuner {
 
                     Note note;
 
-                    if(wave.length == 0){
-                        emitter.onNext(new Note("-",0,0));
-                    }
-                    else{
+                    if (wave.length == 0) {
+                        emitter.onNext(new Note("-", 0, 0));
+                    } else {
                         emitter.onNext(finder.getNote(detector.detect(wave)));
                     }
                 }

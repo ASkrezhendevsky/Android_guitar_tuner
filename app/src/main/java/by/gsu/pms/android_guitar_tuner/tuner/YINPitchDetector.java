@@ -6,7 +6,7 @@ public class YINPitchDetector implements PitchDetector {
     private final double sampleRate;
     private final double[] resultBuffer;
 
-    public YINPitchDetector(double sampleRate, int resultBufferSize){
+    public YINPitchDetector(double sampleRate, int resultBufferSize) {
         this.sampleRate = sampleRate;
         this.resultBuffer = new double[resultBufferSize / 2];
     }
