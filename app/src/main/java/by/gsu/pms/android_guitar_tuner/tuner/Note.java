@@ -1,20 +1,18 @@
 package by.gsu.pms.android_guitar_tuner.tuner;
 
-import java.util.Objects;
-
-public class MutableNote {
+public class Note {
     private String name;
     private double frequency;
-    private float percentOffset;
+    private float relativeDifference;
 
-    public MutableNote() {
+    public Note() {
         // Default constructor
     }
 
-    MutableNote(final String name, final double frequency, final float percentOffset) {
+    public Note(final String name, final double frequency, final float relativeDifference) {
         this.name = name;
         this.frequency = frequency;
-        this.percentOffset = percentOffset;
+        this.relativeDifference = relativeDifference;
     }
 
     public String getName() {
@@ -25,29 +23,17 @@ public class MutableNote {
         return frequency;
     }
 
-    public float getPercentOffset() {
-        return percentOffset;
-    }
-
-    public void setName(final String name) {
-        this.name = name;
-    }
-
-    public void setFrequency(final double frequency) {
-        this.frequency = frequency;
-    }
-
-    public void setPercentOffset(final float percentOffset) {
-        this.percentOffset = percentOffset;
+    public float getRelativeDifference() {
+        return relativeDifference;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        MutableNote note = (MutableNote) o;
+        Note note = (Note) o;
         return Double.compare(note.frequency, frequency) == 0 &&
-                Float.compare(note.percentOffset, percentOffset) == 0 &&
+                Float.compare(note.relativeDifference, relativeDifference) == 0 &&
                 name.equals(note.name);
     }
 
@@ -57,9 +43,9 @@ public class MutableNote {
         final int MODIFIER = 31;
 
         result = MODIFIER * result + name.hashCode();
-        result = MODIFIER * result + Float.floatToIntBits(percentOffset);
+        result = MODIFIER * result + Float.floatToIntBits(relativeDifference);
 
-        long longFrequency = MODIFIER*Double.doubleToLongBits(frequency);
+        long longFrequency = MODIFIER * Double.doubleToLongBits(frequency);
 
         result = MODIFIER * result + (int) (longFrequency ^ (longFrequency >>> 32));
 
