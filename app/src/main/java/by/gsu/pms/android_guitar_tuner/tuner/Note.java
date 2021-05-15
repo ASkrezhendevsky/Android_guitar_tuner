@@ -1,17 +1,15 @@
 package by.gsu.pms.android_guitar_tuner.tuner;
 
-import java.util.Objects;
-
-public class MutableNote {
+public class Note {
     private String name;
     private double frequency;
     private float relativeDifference;
 
-    public MutableNote() {
+    public Note() {
         // Default constructor
     }
 
-    MutableNote(final String name, final double frequency, final float relativeDifference) {
+    public Note(final String name, final double frequency, final float relativeDifference) {
         this.name = name;
         this.frequency = frequency;
         this.relativeDifference = relativeDifference;
@@ -29,23 +27,11 @@ public class MutableNote {
         return relativeDifference;
     }
 
-    public void setName(final String name) {
-        this.name = name;
-    }
-
-    public void setFrequency(final double frequency) {
-        this.frequency = frequency;
-    }
-
-    public void setPercentOffset(final float percentOffset) {
-        this.relativeDifference = percentOffset;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        MutableNote note = (MutableNote) o;
+        Note note = (Note) o;
         return Double.compare(note.frequency, frequency) == 0 &&
                 Float.compare(note.relativeDifference, relativeDifference) == 0 &&
                 name.equals(note.name);

@@ -9,12 +9,11 @@ import io.reactivex.Observable;
 
 public class Tuner {
 
-    private final Observable<MutableNote> observable;
+    private final Observable<Note> observable;
 
     private final PitchDetector detector;
     private final Recorder recorder;
 
-    private final MutableNote mutableNote = new MutableNote();
     private final NoteFinder finder = new NoteFinder();
 
     public Tuner() {
@@ -27,33 +26,19 @@ public class Tuner {
 
                 WaveFilter filter = new ThresholdAndNormalize(1e-2);
 
-                String name;
-                double frequency;
-                float percentOffset;
-
                 while (!emitter.isDisposed()) {
                     float[] wave = recorder.readNext();
 
                     wave = filter.process(wave);
 
+                    Note note;
+
                     if(wave.length == 0){
-                        name = "-" ;
-                        frequency = 0;
-                        percentOffset = 0;
+                        emitter.onNext(new Note("-",0,0));
                     }
                     else{
-                        frequency = detector.detect(wave);
-                        finder.setFrequency(frequency);
-                        name = finder.getNoteName();
-                        percentOffset = finder.getRelativeDifference();
+                        emitter.onNext(finder.getNote(detector.detect(wave)));
                     }
-
-                    synchronized (mutableNote) {
-                        mutableNote.setFrequency(frequency);
-                        mutableNote.setName(name);
-                        mutableNote.setPercentOffset(percentOffset);
-                    }
-                    emitter.onNext(mutableNote);
                 }
 
                 recorder.stopRecording();
@@ -65,7 +50,7 @@ public class Tuner {
         });
     }
 
-    public Observable<MutableNote> startListening() {
+    public Observable<Note> startListening() {
         return observable.share();
     }
 }
