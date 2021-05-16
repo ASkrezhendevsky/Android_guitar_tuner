@@ -5,10 +5,10 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-public class RecorderAndroid6 extends AbstractRecorder{
+public class Android6Recorder extends AbstractRecorder{
     private final float[] floatBuffer;
 
-    public RecorderAndroid6() {
+    public Android6Recorder() {
         this.floatBuffer = new float[getReadSize()];
     }
 

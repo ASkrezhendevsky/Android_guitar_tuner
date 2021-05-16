@@ -6,10 +6,10 @@ public class RecorderFactory {
     public static AbstractRecorder getRecorder(int sdk){
         if(sdk >= Build.VERSION_CODES.M)
         {
-            return new RecorderAndroid6();
+            return new Android6Recorder();
         }
         else {
-            return new RecorderLowerAndroid6();
+            return new AndroidLower6Recorder();
         }
     }
 }
